@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'items/css/items.css' %}">
+{% endblock %}
+
+{% block content %}
+<h2 class="d-flex justify-content-center align-items-center mt-5">Products:</h2>
+<div class="container-lg d-flex justify-content-end">
+    <div class="row">
+
+        {% include 'components/sorting-component.html' %}
+
+    </div>
+</div>
+<div class="container-lg mb-5">
+    <div class="row">
+
+        {% include 'components/product-card.html' %}
+
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+{{ block.super }}
+
+{% include 'components/script/sorting.html' %}
+
+{% endblock %}

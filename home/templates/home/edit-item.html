@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'home/css/home.css' %}">
+{% endblock %}
+
+{% block content%}
+<div class="container">
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-8">
+            <form class="d-flex flex-column" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <h2 class="d-flex justify-content-center mt-5">Edit Item</h2>
+                {{ edit_item_form.category| as_crispy_field }}
+                {{ edit_item_form.sku_number| as_crispy_field }}
+                {{ edit_item_form.product_name| as_crispy_field }}
+                {{ edit_item_form.product_model| as_crispy_field }}
+                {{ edit_item_form.product_description| as_crispy_field }}
+                {{ edit_item_form.quantity| as_crispy_field }}
+                {{ edit_item_form.price| as_crispy_field }}
+                {{ edit_item_form.original_price| as_crispy_field }}
+                {{ edit_item_form.sale| as_crispy_field }}
+                {{ edit_item_form.featured| as_crispy_field }}
+                <div>
+                    <p class="mb-0 mt-3">Image one:</p>
+                    {{ edit_item_form.image_one }}
+                </div>
+                <div>
+                    <p class="mb-0 mt-3">Image two:</p>
+                    {{ edit_item_form.image_two }}
+                </div>
+                <div>
+                    <p class="mb-0 mt-3">Image three:</p>
+                    {{ edit_item_form.image_three }}
+                </div>
+                <div class="d-flex justify-content-center">
+                    <button class="btn btn-success my-5 mx-2" type="submit">Update</button>
+                    <a class="btn btn-primary my-5" href="{% url 'front' %}">Go back</a>
+                </div>
+            </form>
+        </div>
+        <div class="col-2"></div>
+    </div>
+</div>
+{% endblock %}

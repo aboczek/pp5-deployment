@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'items/css/items.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="rov">
+        <div class="col d-flex justify-content-center my-3">
+            <a class="btn btn-warning" href="{% url 'profile' %}">Go back to Account</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-lg-6">
+            <form class="w-100" method="POST" enctype="multipart/form-data"
+                class="d-flex flex-column justify-content-start align-items-start">
+                {% csrf_token %}
+                {{ items_form.category| as_crispy_field }}
+                {{ items_form.sku_number| as_crispy_field }}
+                {{ items_form.product_name| as_crispy_field }}
+                {{ items_form.product_model| as_crispy_field }}
+                {{ items_form.product_description| as_crispy_field }}
+                {{ items_form.quantity| as_crispy_field }}
+                {{ items_form.price| as_crispy_field }}
+                {{ items_form.original_price| as_crispy_field }}
+                {{ items_form.sale| as_crispy_field }}
+                {{ items_form.featured| as_crispy_field }}
+                <div>
+                    <p class="m-0">Image one:</p>
+                    {{ items_form.image_one }}
+                </div>
+                <div class="my-3">
+                    <p class="m-0">Image two:</p>
+                    {{ items_form.image_two }}
+                </div>
+                <div>
+                    <p class="m-0">Image three:</p>
+                    {{ items_form.image_three }}
+                </div>
+                <div class="d-flex justify-content-center w-100">
+                    <button type="submit" class="btn btn-primary my-3">Create</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-12 col-lg-6">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Product_name</th>
+                        <th scope="col">Product SKU</th>
+                        <th scope="col">Edit/Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr>
+                        <th><a href="{% url 'item_details' item.id %}">{{ item.product_name }}</a></th>
+                        <th>{{ item.sku_number }}</th>
+                        <th>
+                            <a class="btn btn-success" href="{% url 'edit-item' item.id %}">Edit</a>
+                            <a class="btn btn-danger" href="{% url 'delete-item' item.id %}">DELETE</a>
+                        </th>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

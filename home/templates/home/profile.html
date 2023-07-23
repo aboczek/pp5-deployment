@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load price_quantity %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'home/css/home.css' %}">
+{% endblock %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+<h2 class="d-flex justify-content-center align-items-center mt-5">User account</h2>
+<hr>
+<div class="container mt-3">
+    <div class="row">
+        <div class="col d-flex justify-content-center align-items-center my-3">
+            {% if user.is_staff %}
+            <a class="btn btn-success" href="{% url 'newsletter-emails' %}">Newsletter emails</a>
+            <a class="btn btn-success ms-3" href="{% url 'sell-to-me' %}">Sell to us</a>
+            <a class="btn btn-success ms-3" href="{% url 'admin-orders' %}">Orders</a>
+            <a class="btn btn-success ms-3" href="{% url 'front' %}">Admin panel</a>
+            {% endif %}</div>
+        <div class="col d-flex justify-content-center align-items-center">
+            <a class="btn btn-primary mx-3" href="{% url 'account_change_password' %}">Change password</a>
+            <a class="btn btn-primary" href="{% url 'account_email' %}">Change email</a>
+        </div>
+    </div>
+</div>
+{% endif %}
+<div class="container my-3">
+    <div class="row">
+        <div class="col-12 col-lg-6">
+            <h3 class="d-flex justify-content-center align-items-center">Your delivery information:</h3>
+            <form action="{% url 'profile' %}" method="POST" id="profile-update">
+                {% csrf_token %}
+                <ul class="list-unstyled">
+                    <li>Phone number:</li>
+                    <li>{{ userprofileform.default_phone_number| as_crispy_field }}</li>
+                    <li>Town or City:</li>
+                    <li>{{ userprofileform.default_town_or_city| as_crispy_field }}</li>
+                    <li>Street address(1):</li>
+                    <li>{{ userprofileform.default_street_address1| as_crispy_field }}</li>
+                    <li>Street address(2):</li>
+                    <li>{{ userprofileform.default_street_address2| as_crispy_field }}</li>
+                    <li>County or State:</li>
+                    <li>{{ userprofileform.default_county_state| as_crispy_field }}</li>
+                    <li>Country:</li>
+                    <li>{{ userprofileform.default_country| as_crispy_field }}</li>
+                </ul>
+                <div class="d-flex justify-content-center align-items-center">
+                    <button class="btn btn-success">Update details</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-12 col-lg-6 my-3">
+            <h3 class="d-flex justify-content-center align-items-center">Your order history:</h3>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Order number:</th>
+                        <th scope="col">Date:</th>
+                        <th scope="col">Order total:</th>
+                    </tr>
+                </thead>
+
+                <tbody>{% for order in orders %}
+                    <tr>
+                        <td><a href="{% url 'order-history' order.order_number %}" title="{{ order.order_number }}">
+                                {{ order.order_number|truncatechars:12 }}
+                            </a>
+                        </td>
+                        <td>
+                            {{ order.date }}
+                        </td>
+                        <td>
+                            {{ order.grand_total }}
+                        </td>
+                    </tr>{% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

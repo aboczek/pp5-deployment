@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load price_quantity %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'items/css/items.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    {% if basket_items %}
+    <div class="row">
+        <div class="col-12 d-flex flex-column justify-content-center align-items-center">
+            <h2 class="mb-5">Your shopping basket!</h2>
+
+            {% include 'components/basket-preview.html' %}
+
+        </div>
+    </div>
+    <div class="row my-3">
+        <div class="col d-flex justify-content-end mt-5">
+            <h2>Subtotal: {{ total|floatformat:2 }} €</h2>
+        </div>
+        <div class="d-flex justify-content-end text-muted">
+            <h5>Deliveries are always free.</h5>
+        </div>
+        <div class="col d-flex justify-content-end my-5">
+            <a href="{% url 'all_items' %}" class="btn btn-warning mx-2"><i class="fa-solid fa-basket-shopping"></i>
+                Continue Shopping</a>
+            <a href="{% url 'checkout' %}" class="btn btn-success"><i class="fa-solid fa-lock"></i> Checkout</a>
+        </div>
+    </div>
+    {% else %}
+    <div class="col-12 d-flex flex-column justify-content-center align-items-center">
+        <h2 class="mb-5">Your shopping basket.</h2>
+        <hr class="w-100">
+        <h3 class="my-5 text-muted">Your basket is empty.</h3>
+        <hr class="w-100">
+        <div class="col d-flex justify-content-end my-5">
+            <a href="{% url 'all_items' %}" class="btn btn-warning mx-2">Continue Shopping</a>
+        </div>
+    </div>
+
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+{{ block.super }}
+
+{% include 'components/script/increment-decrement.html' %}
+{% include 'components/script/update-remove.html' %}
+
+{% endblock %}
