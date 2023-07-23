@@ -33,7 +33,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # DEBUG = os.environ.get('DEBUG')
 DEBUG = 'DEVELOPMENT' in os.environ
 
-ALLOWED_HOSTS = ['.herokuapp.com, localhost']
+ALLOWED_HOSTS = ['.herokuapp.com', '8000-aboczek-pp5deployment-yw26d4bc9uj.ws-eu102.gitpod.io']
 
 
 # Application definition
